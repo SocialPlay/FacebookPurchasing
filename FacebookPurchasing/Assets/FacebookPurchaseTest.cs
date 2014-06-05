@@ -42,13 +42,15 @@ public class FacebookPurchaseTest : MonoBehaviour {
             lastResponse = "Login was successful!";
             FB.Canvas.Pay(
               product: "https://socialplay-staging.azurewebsites.net/CreditBundleDataFacebook?BundleID=5",
-              quantity: 2,
+              quantity: 1,
               callback: delegate(FBResult response)
                         {
                             if (response.Error == null)
                                 lastResponse = response.Text;
                             else
                                 lastResponse = response.Error;
+
+                            Application.ExternalEval("console.log('" + lastResponse + "');");
                         }
                     );
         }
