@@ -329,6 +329,11 @@ public sealed class FB : ScriptableObject
         {
             FBScreen.SetAspectRatio(width, height, layoutParams);
         }
+
+        internal static void Pay(string productID, string p, Action<FacebookDelegate> OnRequestItemBuy)
+        {
+            throw new NotImplementedException();
+        }
     }
     #endregion
 
