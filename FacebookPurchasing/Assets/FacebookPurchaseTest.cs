@@ -10,6 +10,7 @@ public class FacebookPurchaseTest : MonoBehaviour {
 
     private string lastResponse = "";
     private bool isInit = false;
+    bool loggedIn = false;
 
 	// Use this for initialization
 	void Start () {
@@ -40,19 +41,7 @@ public class FacebookPurchaseTest : MonoBehaviour {
         else
         {
             lastResponse = "Login was successful!";
-            FB.Canvas.Pay(
-              product: "https://socialplay-staging.azurewebsites.net/CreditBundleDataFacebook?BundleID=5",
-              quantity: 1,
-              callback: delegate(FBResult response)
-                        {
-                            if (response.Error == null)
-                                lastResponse = response.Text;
-                            else
-                                lastResponse = response.Error;
-
-                            Application.ExternalEval("console.log('" + lastResponse + "');");
-                        }
-                    );
+            loggedIn = true;
         }
     }
 
@@ -60,5 +49,28 @@ public class FacebookPurchaseTest : MonoBehaviour {
     private void OnHideUnity(bool isGameShown)
     {
         Debug.Log("Is game showing? " + isGameShown);
+    }
+
+    void OnGUI()
+    {
+        if (loggedIn == true)
+        {
+            if (GUI.Button(new Rect((Screen.width / 2) - 50, (Screen.height / 2) - 100, 100, 30), "Purchase"))
+            {
+                FB.Canvas.Pay(
+                  product: "https://socialplay-staging.azurewebsites.net/CreditBundleDataFacebook?BundleID=5",
+                  quantity: 1,
+                  callback: delegate(FBResult response)
+                  {
+                      if (response.Error == null)
+                          lastResponse = response.Text;
+                      else
+                          lastResponse = response.Error;
+
+                      Application.ExternalEval("console.log('" + lastResponse + "');");
+                  }
+                        );
+            }
+        }
     }
 }
